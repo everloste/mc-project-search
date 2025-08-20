@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="main.css" />
+		<link rel="stylesheet" href="widgets.css" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Minecraft Project Search</title>
+		<meta
+			name="description"
+			content="CurseForge and Modrinth project search tool"
+			/>
+	</head>
+	<body>
+		<h3>Search Curseforge and Modrinth</h3>
+		<p>
+			You can use this tool to search both CurseForge and Modrinth for Minecraft projects at once.
+			It can fail to pair CurseForge and Modrinth projects if their links don't match.
+		</p>
+		<div class="search-tool">
+			<div class="search-filters">
+				<div>
+					<label for="search-input">Search query</label>
+					<input id="search-input" type="text" placeholder="Search CurseForge and Modrinth..." />
+				</div>
+				<div>
+					<label for="project-type-input">Project type</label>
+					<select id="project-type-input">
+						<option value="all">All</option>
+						<option value="mod">Mod</option>
+						<option value="datapack">Data pack</option>
+						<option value="resourcepack">Resource pack</option>
+						<option value="modpack">Mod pack</option>
+						<option value="shader">Shader</option>
+						<option value="plugin">Plugin</option>
+					</select>
+				</div>
+				<div>
+					<label for="version-input">Minecraft version</label>
+					<input id="version-input" type="text" placeholder="Version..." />
+				</div>
+				<div>
+					<label for="search-number-input">Number of queries</label>
+					<span style="font-size: small;"><br>Higher numbers of API queries give more accurate results, but are a bit slower</span>
+					<input id="search-number-input" type="number" value="15" min="5" max="100"/>
+				</div>
+				<div>
+					<label for="deep-search-toggle">Deep search</label>
+					<input id="deep-search-toggle" type="checkbox" />
+					<span style="font-size: small;"><br>Look for projects that weren't automatically matched on the other site (slows search down significantly, but gives more useful results)</span>
+				</div>
+				<button id="search-button">
+					Search
+				</button>
+				<p id="search-progress-indicator"></p>
+			</div>
+
+			<div class="search-result-list">
+
+			</div>
+
+			<template id="SEARCH-RESULT-ITEM-TEMPLATE">
+				<div class="search-result-item">
+					<img class="-icon" src="" />
+					<div class="-content">
+						<span class="-title">Project title</span><span class="-by"> by <span class="-author">unknown author</span></span>
+						<br>
+						<span class="-desc">Project description</span>
+						<br>
+						<span class="-stats-text"><span class="-downloads">unknown number of</span> downloads</span>
+					</div>
+					<div>
+						<a class="-curseforge-link" target="_blank">CurseForge<br></a>
+						<a class="-modrinth-link" target="_blank">Modrinth</a>
+					</div>
+				</div>
+			</template>
+		</div>
+
+		<script type="module" src="src/main.ts"></script>
+	</body>
+	<footer>
+		Developed by <a href="https://everloste.github.io" target="_blank">Bee</a> &nbsp;∗&nbsp; <a href="https://everloste.github.io/ko-fi" target="_blank">Buy a coffee</a> &nbsp;∗&nbsp; <a href="https://github.com/everloste/dptoolkit-web" target="_blank">Source code</a> &nbsp;∗&nbsp; <a href="https://github.com/everloste/dptoolkit-web/issues" target="_blank">Report issues</a> &nbsp;∗&nbsp; <a href="https://everloste.github.io/discord" target="_blank">Discord server</a>
+	</footer>
+</html>
