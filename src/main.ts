@@ -24,14 +24,14 @@ async function search() {
 	let search_project_type: string | undefined = (document.getElementById("project-type-input") as HTMLSelectElement)!.value;
 	if (search_project_type == "all") search_project_type = undefined;
 
-	const deep_search = (document.getElementById("deep-search-toggle") as HTMLInputElement)!.checked;
+	const pair_search = (document.getElementById("pair-search-toggle") as HTMLInputElement)!.checked;
 
 	const results = await searchCombined({
 		query: search_text,
 		version: sanitiseVersion(search_version),
 		number: search_number,
 		project_type: search_project_type ? search_project_type as UnifiedProjectType : undefined,
-		deep_search: deep_search
+		pair_search: pair_search
 	});
 
 	console.log("Searching:", search_text, search_version);

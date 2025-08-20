@@ -22,7 +22,7 @@ export type UnifiedSearchOptions = {
 	version?: string;
 	page?: number;
 	project_type?: UnifiedProjectType;
-	deep_search?: boolean;
+	pair_search?: boolean;
 }
 
 export type UnifiedProjectType = "mod" | "datapack" | "resourcepack" | "modpack" | "plugin" | "shader";
@@ -88,14 +88,14 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 	progress_indicator.innerText = "Sorting...";
 	results.sort((a, b) => b.downloads - a.downloads);
 
-	// Perform a deep search if desired
-	if (options.deep_search) {
-		console.info("Performing a deep search, this may take a bit...");
-		progress_indicator.innerText = "Performing a deep search, this may take a bit...";
+	// Perform a pair search if desired
+	if (options.pair_search) {
+		console.info("Performing a pair search, this may take a bit...");
+		progress_indicator.innerText = "Performing a pair search, this may take a bit...";
 		
 		let i = 0;
 		for (const result of results) {
-			progress_indicator.innerText = `Performing a deep search, this may take a bit... (${Math.round(i / results.length * 100)}%)`; i++;
+			progress_indicator.innerText = `Performing a pair search, this may take a bit... (${Math.round(i / results.length * 100)}%)`; i++;
 
 			if (!result.curseforge) {
 				const deep_results = await curseForgeSearch({
