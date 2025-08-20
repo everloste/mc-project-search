@@ -51,7 +51,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 			icon_url: result.icon_url,
 			modrinth: `https://modrinth.com/project/${result.slug}`,
 			downloads: result.downloads,
-			weight: 0
+			weight: (result.downloads > 1000) ? (result.follows / result.downloads * 25) : (result.follows / result.downloads * 5)
 		} as searchResult;
 
 		const cf_equivalent = curseforgeResults.find(
@@ -139,7 +139,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 
 		for (let index = 0; index < fuse_results.length; index++) {
 			const fuse_result = fuse_results[index];
-			results[fuse_result.refIndex].weight = Math.tan(1 - fuse_result.score!);
+			results[fuse_result.refIndex].weight += Math.tan(1 - fuse_result.score!);
 		}
 	}
 	const downloads_weight = 0.0625;
