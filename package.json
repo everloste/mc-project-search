@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "typescript": "~5.8.3",
-    "vite": "^7.1.2"
+    "typescript": "~5.8.3"
   },
   "dependencies": {
     "vite": "^7.1.0",
-    "vite-plugin-handlebars": "^2.0.0"
+    "vite-plugin-handlebars": "^2.0.0",
+    "fuse.js": "^7.1.0"
   }
 }

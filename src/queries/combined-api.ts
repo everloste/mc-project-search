@@ -1,5 +1,6 @@
 import { curseForgeSearch } from "./curseforge-api";
 import { modrinthSearch } from "./modrinth-api";
+import Fuse from "fuse.js";
 
 export type searchResults = searchResult[];
 
@@ -14,6 +15,7 @@ export type searchResult = {
 	modrinth?: string;
 
 	downloads: number;
+	weight: number;
 }
 
 export type UnifiedSearchOptions = {
@@ -32,7 +34,6 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 
 	const progress_indicator = document.getElementById("search-progress-indicator") as HTMLParagraphElement;
 	
-
 	console.time("Got responses from Modrinth and CurseForge");
 	progress_indicator.innerText = "Searching Modrinth...";
 	const modrinthResults = await modrinthSearch(options);
@@ -49,7 +50,8 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 			author: result.author,
 			icon_url: result.icon_url,
 			modrinth: `https://modrinth.com/project/${result.slug}`,
-			downloads: result.downloads
+			downloads: result.downloads,
+			weight: 0
 		} as searchResult;
 
 		const cf_equivalent = curseforgeResults.find(
@@ -75,7 +77,8 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					description: cf_result.summary,
 					author: cf_result.author.username,
 					icon_url: cf_result.avatarUrl,
-					downloads: cf_result.downloads
+					downloads: cf_result.downloads,
+					weight: 0
 				} as searchResult;
 
 				results.push(item);
@@ -83,10 +86,6 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 		}
 	}
 	else console.warn("Could not retrieve any results for CurseForge");
-
-	// Sort results by download count
-	progress_indicator.innerText = "Sorting...";
-	results.sort((a, b) => b.downloads - a.downloads);
 
 	// Perform a pair search if desired
 	if (options.pair_search) {
@@ -130,6 +129,26 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 			}
 		}
 	}
+
+	// Sort results
+	progress_indicator.innerText = "Sorting...";
+
+	const fuse = new Fuse(results, {keys: ["title", "description", "author", "slug"], includeScore: true, findAllMatches: true, fieldNormWeight: 2});
+	if (options.query != "") {
+		const fuse_results = fuse.search(options.query);
+
+		for (let index = 0; index < fuse_results.length; index++) {
+			const fuse_result = fuse_results[index];
+			results[fuse_result.refIndex].weight = Math.tan(1 - fuse_result.score!);
+		}
+	}
+	const downloads_weight = 0.0625;
+	results.sort((a, b) => {
+		return (b.weight + Math.pow((b.downloads / a.downloads), downloads_weight)) - (a.weight + Math.pow((a.downloads / b.downloads), downloads_weight));
+	});
+	//results.sort((a, b) => b.downloads - a.downloads);
+
+	// Done
 	progress_indicator.innerText = "";
 	return results;
 }
