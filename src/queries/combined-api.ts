@@ -53,7 +53,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 		} as searchResult;
 
 		const cf_equivalent = curseforgeResults.find(
-			(value) => value.slug == item.slug
+			(value) => value.slug == item.slug || value.name == item.title
 		);
 
 		if (cf_equivalent) {
@@ -67,7 +67,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 	// Process CurseForge results and add them on top of Modrinth
 	if (curseforgeResults) {
 		for (const cf_result of curseforgeResults) {
-			if (!(results.find((result) => result.slug == cf_result.slug))) {
+			if (!(results.find((result) => result.slug == cf_result.slug || result.title == cf_result.name))) {
 				let item = {
 					curseforge: `https://www.curseforge.com/minecraft/${cf_result.class.slug}/${cf_result.slug}`,
 					slug: cf_result.slug,
@@ -104,7 +104,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					number: 5
 				});
 				if (deep_results) {
-					const match = deep_results.find((value) => value.slug == result.slug);
+					const match = deep_results.find((value) => value.slug == result.slug || value.name == result.title);
 					if (match) {
 						result.curseforge = `https://www.curseforge.com/minecraft/${match.class.slug}/${match.slug}`;
 						result.downloads += match.downloads;
@@ -120,7 +120,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					number: 5
 				});
 				if (deep_results) {
-					const match = deep_results.find((value) => value.slug == result.slug);
+					const match = deep_results.find((value) => value.slug == result.slug || value.title == result.title);
 					if (match) {
 						result.modrinth = `https://modrinth.com/project/${match.slug}`;
 						result.downloads += match.downloads;
