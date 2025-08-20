@@ -13,6 +13,7 @@
 	--background-above-above: #363a4f;
 
 	--accent-color: #beabee;
+	--accent-color-faded: #a18ed1;
 
 	--text-color: whitesmoke;
 	--darker-text-color: rgb(179, 178, 178);
@@ -41,11 +42,18 @@ p, h1, h2, h3, h4, h5 {
 }
 
 a {
+	text-decoration: underline transparent var(--border-width);
+	font-weight: bolder;
+	transition: all var(--ease-out-circ) 0.5s;
+
+	&:hover {
+		text-decoration: underline var(--accent-color-faded) var(--border-width);
+	}
 	&:link {
 		color: var(--accent-color);
 	}
 	&:visited {
-		color: var(--accent-color);
+		color: var(--accent-color-faded);
 	}
 }
 
