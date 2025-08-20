@@ -3,6 +3,8 @@ import { searchCombined, type UnifiedProjectType } from "./queries/combined-api"
 document.getElementById("search-input")!.addEventListener("change", search);
 document.getElementById("search-button")!.addEventListener("click", search);
 
+search();
+
 function sanitiseVersion(version: string) {
 	const parts = version.trim().split(".");
 
