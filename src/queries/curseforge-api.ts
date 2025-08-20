@@ -16,7 +16,7 @@ export async function curseForgeSearch(options: UnifiedSearchOptions): Promise<C
 			case "shader": project_class = 6552; break;
 		}
 	}
-	// if resource pack and category id 5193 the pack is actually a data pack - implement this later
+	// if resource pack and category id 5193 the pack is actually a data pack - implement this later (slug = "data-packs")
 
 	let url = `https://www.curseforge.com/api/v1/mods/search?gameId=432&index=${options.page}&pageSize=${options.number}&sortField=1&filterText=${options.query}`;
 	if (options.version) url = url + `&gameVersion=${options.version}`;
@@ -25,6 +25,10 @@ export async function curseForgeSearch(options: UnifiedSearchOptions): Promise<C
 	try {
 		const http_response = await fetch(url, {method: "GET"});
 		const response = await http_response.json() as CurseForgeSearchResponse;
+
+		// Filter out data packs from resource pack results
+		if (options.project_type == "resourcepack") response.data = response.data.filter((value) => undefined == value.categories.find((value2) => value2.slug == "data-packs"));
+
 		return response.data;
 	}
 	catch (error) {

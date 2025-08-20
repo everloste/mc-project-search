@@ -22,7 +22,14 @@ export type CurseForgeProjectResponse = {
 
 	// METADATA //
 	thumbnailUrl: string;
-	categories: object[];
+	categories: {
+		id: number;
+		slug: string;
+		name: string;
+		url: string;
+		classId: number;
+		parentCategoryId: number;
+	}[];
 	gameVersion: string;
 	class: {
 		id: number;
