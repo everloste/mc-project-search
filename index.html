@@ -40,6 +40,17 @@
 					<input id="version-input" type="text" placeholder="Version..." />
 				</div>
 				<div>
+					<label for="project-type-input">Mod loader</label>
+					<span style="font-size: small;"><br>Currently not implemented</span>
+					<select id="project-type-input">
+						<option value="any">Any</option>
+						<option value="forge">Forge</option>
+						<option value="neoforge">NeoForge</option>
+						<option value="fabric">Fabric</option>
+						<option value="quilt">Quilt</option>
+					</select>
+				</div>
+				<div>
 					<label for="search-number-input">Number of queries</label>
 					<span style="font-size: small;"><br>Higher numbers of API queries give more accurate results, but are a bit slower</span>
 					<input id="search-number-input" type="number" value="15" min="5" max="100"/>
