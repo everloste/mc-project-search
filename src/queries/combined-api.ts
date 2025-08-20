@@ -55,7 +55,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 		} as searchResult;
 
 		const cf_equivalent = curseforgeResults.find(
-			(value) => value.slug == item.slug || value.name == item.title
+			(value) => value.slug == item.slug || (value.name == item.title && value.author.username == item.author)
 		);
 
 		if (cf_equivalent) {
@@ -69,7 +69,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 	// Process CurseForge results and add them on top of Modrinth
 	if (curseforgeResults) {
 		for (const cf_result of curseforgeResults) {
-			if (!(results.find((result) => result.slug == cf_result.slug || result.title == cf_result.name))) {
+			if (!(results.find((result) => result.slug == cf_result.slug || (result.title == cf_result.name && result.author == cf_result.author.username)))) {
 				let item = {
 					curseforge: `https://www.curseforge.com/minecraft/${cf_result.class.slug}/${cf_result.slug}`,
 					slug: cf_result.slug,
@@ -103,7 +103,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					number: 5
 				});
 				if (deep_results) {
-					const match = deep_results.find((value) => value.slug == result.slug || value.name == result.title);
+					const match = deep_results.find((value) => value.slug == result.slug || (value.name == result.title && value.author.username == result.author));
 					if (match) {
 						result.curseforge = `https://www.curseforge.com/minecraft/${match.class.slug}/${match.slug}`;
 						result.downloads += match.downloads;
@@ -119,7 +119,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					number: 5
 				});
 				if (deep_results) {
-					const match = deep_results.find((value) => value.slug == result.slug || value.title == result.title);
+					const match = deep_results.find((value) => value.slug == result.slug || (value.title == result.title && value.author == result.author));
 					if (match) {
 						result.modrinth = `https://modrinth.com/project/${match.slug}`;
 						result.downloads += match.downloads;
