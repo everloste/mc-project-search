@@ -31,15 +31,15 @@ export type UnifiedProjectType = "mod" | "datapack" | "resourcepack" | "modpack"
 
 export async function searchCombined(options: UnifiedSearchOptions) {
 	let results: searchResult[] = [];
+	if (!options.number) options.number = 25;
 
 	const progress_indicator = document.getElementById("search-progress-indicator") as HTMLParagraphElement;
 	
-	console.time("Got responses from Modrinth and CurseForge");
 	progress_indicator.innerText = "Searching Modrinth...";
 	const modrinthResults = await modrinthSearch(options);
 	progress_indicator.innerText = "Searching CurseForge...";
 	const curseforgeResults = await curseForgeSearch(options);
-	console.timeEnd("Got responses from Modrinth and CurseForge");
+
 
 	// Process Modrinth result as our base results
 	for (const result of modrinthResults) {
