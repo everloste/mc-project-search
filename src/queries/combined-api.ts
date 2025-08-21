@@ -1,7 +1,7 @@
 import { curseForgeSearch } from "./curseforge-api";
 import { modrinthSearch } from "./modrinth-api";
 import Fuse from "fuse.js";
-import {compare} from "semver";
+import {compare, valid} from "semver";
 
 export type searchResults = searchResult[];
 
@@ -28,6 +28,7 @@ export type UnifiedSearchOptions = {
 	page?: number;
 	project_type?: UnifiedProjectType;
 	pair_search?: boolean;
+	mod_loader?: string;
 }
 
 export type UnifiedProjectType = "mod" | "datapack" | "resourcepack" | "modpack" | "plugin" | "shader";
@@ -67,7 +68,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 			final_result.curseforge = `https://www.curseforge.com/minecraft/${cf_equivalent.class.slug}/${cf_equivalent.slug}`;
 			final_result.downloads += cf_equivalent.downloads;
 
-			if (final_result.version && compare(final_result.version, cf_equivalent.gameVersion) < 0) {
+			if (final_result.version && valid(final_result.version) && valid(cf_equivalent.gameVersion) && compare(final_result.version, cf_equivalent.gameVersion) < 0) {
 				final_result.version = cf_equivalent.gameVersion;
 			}
 		}
@@ -118,7 +119,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 						result.curseforge = `https://www.curseforge.com/minecraft/${match.class.slug}/${match.slug}`;
 						result.downloads += match.downloads;
 
-						if (result.version && compare(result.version, match.gameVersion) < 0) {
+						if (result.version && valid(result.version) && valid(match.gameVersion) && compare(result.version, match.gameVersion) < 0) {
 							result.version = match.gameVersion;
 						}
 					}
@@ -139,7 +140,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 						result.downloads += match.downloads;
 						result.follows = match.follows;
 
-						if (result.version && match.versions.length != 0 && compare(result.version, match.versions.at(-1)!) < 0) {
+						if (result.version && match.versions.length != 0 && valid(result.version) && valid(match.versions.at(-1)!) && compare(result.version, match.versions.at(-1)!) < 0) {
 							result.version = match.versions.at(-1);
 						}
 					}

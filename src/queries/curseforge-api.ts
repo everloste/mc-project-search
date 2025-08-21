@@ -16,11 +16,23 @@ export async function curseForgeSearch(options: UnifiedSearchOptions): Promise<C
 			case "shader": project_class = 6552; break;
 		}
 	}
+
+	let mod_loader = undefined;
+	if (options.mod_loader) {
+		switch (options.mod_loader) {
+			case "forge": mod_loader = 1; break;
+			case "neoforge": mod_loader = 6; break;
+			case "fabric": mod_loader = 4; break;
+			case "quilt": mod_loader = 5; break;
+		}
+	}
+
 	// if resource pack and category id 5193 the pack is actually a data pack - implement this later (slug = "data-packs")
 
 	let url = `https://www.curseforge.com/api/v1/mods/search?gameId=432&index=${options.page}&pageSize=${options.number}&sortField=1&filterText=${options.query}`;
 	if (options.version) url = url + `&gameVersion=${options.version}`;
 	if (project_class) url = url + `&classId=${project_class}`;
+	if (mod_loader) url = url + `&gameFlavors[0]=${mod_loader}`;
 	
 	try {
 		const http_response = await fetch(url, {method: "GET"});
