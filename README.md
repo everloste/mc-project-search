@@ -10,10 +10,10 @@ The searched term is **"minimap"** and no project type is set. Modrinth's websit
 
 I will make further adjustments as I work on the tool, but I think it's decent for now.
 
-![search_comparison](https://github.com/user-attachments/assets/70882704-7866-496d-9976-ffce093fec71)
+![search_comparison_2](https://github.com/user-attachments/assets/4a56fb56-c317-45b7-a2a9-77ba5963b5dc)
 
 ### To-do
-- Search by mod loader (easy enough)
+- ~~Search by mod loader~~
 - Search by author username (a tad complicated for CF but doable)
 - Search by project category
     - Relatively simple for resource pack resolution (16x, 32x, etc.)
