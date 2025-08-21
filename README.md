@@ -6,7 +6,7 @@ though still relies on Modrinth and CurseForge search.
 
 ### Results comparison
 Here is a comparison of the top results of this tool and the CurseForge and Modrinth websites.
-The searched term is **"minimap"** and no project type is set. Modrinth's website does not have an option for searching all project types, so the shown screen is mods.
+The searched term is just **"decor"** and no project type is set. Modrinth's website does not have an option for searching all project types, so the shown screen is mods.
 
 I will make further adjustments as I work on the tool, but I think it's decent for now.
 
