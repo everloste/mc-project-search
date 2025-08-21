@@ -1,15 +1,17 @@
-import { valid } from "semver";
 import { searchCombined, type UnifiedProjectType } from "./queries/combined-api";
+import { versionFeedback } from "./page";
+import { mcverIsValid } from "./mcver";
 
 document.getElementById("search-input")!.addEventListener("change", search);
 document.getElementById("search-button")!.addEventListener("click", search);
+document.getElementById("version-input")!.addEventListener("change", versionFeedback);
 
 search();
 
 function sanitiseVersion(version: string) {
-	const r = valid(version);
-	if (r == null) return undefined;
-	else return r as string;
+	const r = mcverIsValid(version);
+	if (r == false) return undefined;
+	else return version;
 }
 
 async function search() {
