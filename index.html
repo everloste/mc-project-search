@@ -12,11 +12,16 @@
 		<link rel="stylesheet" href="./widgets.css" />
 	</head>
 	<body>
-		<h3>Search Curseforge and Modrinth... (indev)</h3>
-		<p>
-			You can use this tool to search both CurseForge and Modrinth for Minecraft projects at once.
-			It can fail to pair CurseForge and Modrinth projects if their links don't match.
-		</p>
+		<header>
+			<h2>
+				Search Curseforge and Modrinth (beta)
+			</h2>
+			<p>
+				You can use this tool to search both CurseForge and Modrinth for Minecraft projects at once.
+				It can fail to pair CurseForge and Modrinth projects if their links don't match.
+			</p>
+		</header>
+
 		<div class="search-tool">
 			<div class="search-filters">
 				<div>
@@ -56,8 +61,8 @@
 					<input id="search-number-input" type="number" value="30" min="5" max="100"/>
 				</div>
 				<div>
-					<label for="pair-search-toggle">Pair search</label>
 					<input id="pair-search-toggle" type="checkbox" />
+					<label for="pair-search-toggle">Pair search</label>
 					<span style="font-size: small;"><br>Try harder to get project links to both CurseForge and Modrinth (slows search down significantly, but gives more useful results)</span>
 				</div>
 				<button id="search-button">
