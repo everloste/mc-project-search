@@ -60,3 +60,10 @@ a {
 footer {
 	text-align: center;
 }
+
+dialog {
+	background-color: var(--background);
+	border: var(--border-width) solid var(--background-above);
+	color: inherit;
+	max-width: 25vw;
+}

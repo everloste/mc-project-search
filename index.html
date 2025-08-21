@@ -20,7 +20,7 @@
 		<div class="search-tool">
 			<div class="search-filters">
 				<div>
-					<label for="search-input">Search query</label>
+					<label for="search-input">Search term(s)</label>
 					<input id="search-input" type="text" placeholder="Search CurseForge and Modrinth..." />
 				</div>
 				<div>
@@ -86,8 +86,18 @@
 					</div>
 				</div>
 			</template>
-		</div>
 
+			<template id="SEARCH-RESULT-FAIL-TEMPLATE">
+				<div class="search-result-item">
+					<p>
+						<b>No results found :&#40;</b>
+					</p>
+					<p>
+						Do you think this is a bug? Please report it!
+					</p>
+				</div>
+			</template>
+		</div>
 		<script type="module" src="src/main.ts"></script>
 	</body>
 	<footer>

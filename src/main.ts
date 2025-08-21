@@ -46,6 +46,10 @@ async function search() {
 			result_list_widget.removeChild(result_list_widget.lastChild!);
 		}
 
+		if (results.length == 0) {
+			showFail();
+		}
+
 		for (const result of results) {
 			let clone = template.content.querySelector("div")!.cloneNode(true) as HTMLDivElement;
 
@@ -72,4 +76,13 @@ async function search() {
 			result_list_widget.appendChild(clone!);
 		}
 	}
+	else {
+		showFail();
+	}
+}
+
+function showFail() {
+	const template = document.getElementById("SEARCH-RESULT-FAIL-TEMPLATE")! as HTMLTemplateElement;
+	let clone = template.content.querySelector("div")!.cloneNode(true) as HTMLDivElement;
+	document.querySelector(".search-result-list")!.appendChild(clone!);
 }
