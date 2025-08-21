@@ -1,3 +1,4 @@
+import { valid } from "semver";
 import { searchCombined, type UnifiedProjectType } from "./queries/combined-api";
 
 document.getElementById("search-input")!.addEventListener("change", search);
@@ -6,16 +7,9 @@ document.getElementById("search-button")!.addEventListener("click", search);
 search();
 
 function sanitiseVersion(version: string) {
-	const parts = version.trim().split(".");
-
-	if (parts.length < 2 || parts.length > 3) {
-		return undefined;
-	}
-	if (parts[0] != "1" || parseInt(parts[1]) > 21 || parseInt(parts[1]) < 0) {
-		return undefined;
-	}
-
-	return version;
+	const r = valid(version);
+	if (r == null) return undefined;
+	else return r as string;
 }
 
 async function search() {
@@ -71,6 +65,16 @@ async function search() {
 			}
 			else {
 				(clone.querySelector(".-modrinth-link") as HTMLAnchorElement).href = result.modrinth;
+			}
+
+			if (result.follows) {
+				(clone.querySelector(".-follows") as HTMLSpanElement).hidden = false;
+				(clone.querySelector(".-follows-count") as HTMLSpanElement).innerText = Intl.NumberFormat().format(result.follows);
+			}
+
+			if (result.version) {
+				(clone.querySelector(".-version") as HTMLSpanElement).hidden = false;
+				(clone.querySelector(".-version-number") as HTMLSpanElement).innerText = result.version;
 			}
 
 			result_list_widget.appendChild(clone!);

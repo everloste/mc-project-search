@@ -1,6 +1,7 @@
 import { curseForgeSearch } from "./curseforge-api";
 import { modrinthSearch } from "./modrinth-api";
 import Fuse from "fuse.js";
+import {compare} from "semver";
 
 export type searchResults = searchResult[];
 
@@ -15,7 +16,9 @@ export type searchResult = {
 	modrinth?: string;
 
 	downloads: number;
+	follows?: number;
 	weight: number;
+	version?: string;
 }
 
 export type UnifiedSearchOptions = {
@@ -42,28 +45,34 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 
 
 	// Process Modrinth result as our base results
-	for (const result of modrinthResults) {
-		let item = {
-			slug: result.slug,
-			title: result.title,
-			description: result.description,
-			author: result.author,
-			icon_url: result.icon_url,
-			modrinth: `https://modrinth.com/project/${result.slug}`,
-			downloads: result.downloads,
-			weight: (result.downloads > 1000) ? (result.follows / result.downloads * 25) : (result.follows / result.downloads * 5)
+	for (const mr_result of modrinthResults) {
+		let final_result = {
+			slug: mr_result.slug,
+			title: mr_result.title,
+			description: mr_result.description,
+			author: mr_result.author,
+			icon_url: mr_result.icon_url,
+			modrinth: `https://modrinth.com/project/${mr_result.slug}`,
+			downloads: mr_result.downloads,
+			follows: mr_result.follows,
+			version: mr_result.versions.at(-1),
+			weight: (mr_result.downloads > 1000) ? (mr_result.follows / mr_result.downloads * 25) : (mr_result.follows / mr_result.downloads * 5)
 		} as searchResult;
 
 		const cf_equivalent = curseforgeResults.find(
-			(value) => value.slug == item.slug || (value.name == item.title && value.author.username == item.author)
+			(cf_result) => cf_result.slug == final_result.slug || (cf_result.name == final_result.title && cf_result.author.username == final_result.author)
 		);
 
 		if (cf_equivalent) {
-			item.curseforge = `https://www.curseforge.com/minecraft/${cf_equivalent.class.slug}/${cf_equivalent.slug}`;
-			item.downloads += cf_equivalent.downloads;
+			final_result.curseforge = `https://www.curseforge.com/minecraft/${cf_equivalent.class.slug}/${cf_equivalent.slug}`;
+			final_result.downloads += cf_equivalent.downloads;
+
+			if (final_result.version && compare(final_result.version, cf_equivalent.gameVersion) < 0) {
+				final_result.version = cf_equivalent.gameVersion;
+			}
 		}
 
-		results.push(item);
+		results.push(final_result);
 	}
 
 	// Process CurseForge results and add them on top of Modrinth
@@ -78,6 +87,7 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					author: cf_result.author.username,
 					icon_url: cf_result.avatarUrl,
 					downloads: cf_result.downloads,
+					version: cf_result.gameVersion,
 					weight: 0
 				} as searchResult;
 
@@ -107,6 +117,10 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					if (match) {
 						result.curseforge = `https://www.curseforge.com/minecraft/${match.class.slug}/${match.slug}`;
 						result.downloads += match.downloads;
+
+						if (result.version && compare(result.version, match.gameVersion) < 0) {
+							result.version = match.gameVersion;
+						}
 					}
 				}
 				else console.warn(`No results found on CurseForge for '${result.slug}' - '${result.title}'`);
@@ -123,6 +137,11 @@ export async function searchCombined(options: UnifiedSearchOptions) {
 					if (match) {
 						result.modrinth = `https://modrinth.com/project/${match.slug}`;
 						result.downloads += match.downloads;
+						result.follows = match.follows;
+
+						if (result.version && match.versions.length != 0 && compare(result.version, match.versions.at(-1)!) < 0) {
+							result.version = match.versions.at(-1);
+						}
 					}
 				}
 				else console.warn(`No results found on Modrinth for '${result.slug}' - '${result.title}'`);
