@@ -79,9 +79,10 @@ a {
 	color: inherit;
 	text-decoration: underline transparent var(--border-width);
 	font-weight: bolder;
+	cursor: pointer;
 
 	transition: all var(--ease-out-circ) 0.75s;
-
+	
 	&:link {
 		color: var(--accent-color);
 	}

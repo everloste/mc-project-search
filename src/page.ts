@@ -7,3 +7,8 @@ export function versionFeedback(this: HTMLInputElement) {
 	if (!mcverIsValid(version) && version != "") feedback.hidden = false;
 	else feedback.hidden = true;
 }
+
+export function hideIntroduction(this: HTMLAnchorElement) {
+	const text = document.getElementById("introduction-text");
+	if (text) text.hidden = true;
+}

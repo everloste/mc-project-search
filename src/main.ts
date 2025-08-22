@@ -1,10 +1,11 @@
 import { searchCombined, type UnifiedProjectType } from "./queries/combined-api";
-import { versionFeedback } from "./page";
+import { hideIntroduction, versionFeedback } from "./page";
 import { mcverIsValid } from "./mcver";
 
 document.getElementById("search-input")!.addEventListener("change", search);
 document.getElementById("search-button")!.addEventListener("click", search);
 document.getElementById("version-input")!.addEventListener("change", versionFeedback);
+document.getElementById("hide-introduction-link")!.addEventListener("click", hideIntroduction);
 
 search();
 

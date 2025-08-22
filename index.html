@@ -16,9 +16,10 @@
 			<h2>
 				Search Curseforge and Modrinth (beta)
 			</h2>
-			<p>
+			<p id="introduction-text">
 				You can use this tool to search both CurseForge and Modrinth for Minecraft projects at once.
 				It can fail to pair CurseForge and Modrinth projects if their links don't match.
+				<a id="hide-introduction-link">Got it, hide this text.</a>
 			</p>
 		</header>
 
@@ -69,6 +70,12 @@
 					Search
 				</button>
 				<p id="search-progress-indicator"></p>
+				<div style="display: flex; flex-direction: row; align-items: baseline;">
+					<label style="margin-right: 0.5em;" hidden>
+						Page
+					</label>
+					<input type="text" class="inline" min="1" value="1" max="100" style="width: 5em;" hidden/>
+				</div>
 			</div>
 
 			<div class="search-result-list">
