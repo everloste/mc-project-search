@@ -94,4 +94,19 @@ a {
 		text-decoration: underline var(--accent-color-lighter) var(--border-width);
 		font-weight: 900;
 	}
+	&.basic:hover {
+		text-decoration: transparent var(--border-width);
+		font-weight: bold;
+	}
+}
+
+svg {
+	width: 1em;
+	height: 1em;
+	color: currentColor;
+	fill: currentColor;
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	top: -0.1em;
 }

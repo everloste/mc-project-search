@@ -16,7 +16,7 @@
 			<h2>
 				Search Curseforge and Modrinth (beta)
 			</h2>
-			<p id="introduction-text">
+			<p id="introduction-text" hidden>
 				You can use this tool to search both CurseForge and Modrinth for Minecraft projects at once.
 				It can fail to pair CurseForge and Modrinth projects if their links don't match.
 				<a id="hide-introduction-link">Got it, hide this text.</a>
@@ -29,6 +29,7 @@
 					<label for="search-input">Search term(s)</label>
 					<input id="search-input" type="text" placeholder="Search CurseForge and Modrinth..." />
 				</div>
+				
 				<div>
 					<label for="project-type-input">Project type</label>
 					<select id="project-type-input">
@@ -41,11 +42,13 @@
 						<option value="plugin">Plugin</option>
 					</select>
 				</div>
+
 				<div>
 					<label for="version-input">Minecraft version</label>
 					<input id="version-input" type="text" placeholder="Version..." />
 					<span hidden id="version-input-feedback" style="font-size: small; vertical-align: top;">⚠ Invalid version</span>
 				</div>
+
 				<div>
 					<label for="mod-loader-input">Mod loader</label>
 					<select id="mod-loader-input">
@@ -56,26 +59,36 @@
 						<option value="quilt">Quilt</option>
 					</select>
 				</div>
+				
 				<div>
 					<label for="search-number-input">Number of results</label>
 					<span style="font-size: small;"><br>Higher numbers give more accurate results, but are a bit slower</span>
 					<input id="search-number-input" type="number" value="30" min="5" max="100"/>
 				</div>
+
 				<div>
 					<input id="pair-search-toggle" type="checkbox" />
 					<label for="pair-search-toggle">Pair search</label>
 					<span style="font-size: small;"><br>Try harder to get project links to both CurseForge and Modrinth (slows search down significantly, but gives more useful results)</span>
 				</div>
-				<button id="search-button">
-					Search
-				</button>
-				<p id="search-progress-indicator"></p>
-				<div hidden style="display: flex; flex-direction: row; align-items: baseline;">
-					<label hidden style="margin-right: 0.5em;">
-						Page
-					</label>
-					<input hidden type="text" inputmode="numeric" style="width: 4em;" pattern="^[0-9]+$"/>
+
+				<div style="display: flex; flex-direction: row; align-items: baseline;">
+					<button id="search-button" style="width:75%;">
+						Search
+					</button>
+
+					<span id="search-page" style="width:25%;text-align:center;user-select: none;">
+						<a class="basic -down">
+							<svg alt="down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 96c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c9.2 9.2 22.9 11.9 34.9 6.9S224 428.9 224 416l0-320z"/></svg>
+						</a>
+						&nbsp;&nbsp;<span class="-value">1</span>&nbsp;&nbsp;
+						<a class="basic -up">
+							<svg alt="up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M32.5 96c0-12.9 7.8-24.6 19.8-29.6S78 64.2 87.1 73.4l160 160c12.5 12.5 12.5 32.8 0 45.3l-160 160c-9.2 9.2-22.9 11.9-34.9 6.9S32.5 428.9 32.5 416l0-320z"/></svg>
+						</a>
+					</span>
 				</div>
+
+				<p id="search-progress-indicator"></p>
 			</div>
 
 			<div class="search-result-list">
