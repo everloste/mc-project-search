@@ -1,4 +1,4 @@
-/** Returns if the string is in the form of a Minecraft version. */
+/** Returns whether the string is in the form of a Minecraft version. */
 export function mcverIsValid(version: string, include_snapshots: boolean = false): boolean {
 	// snapshot testing
 	if (version.split(".").length === 1) {
@@ -11,14 +11,14 @@ export function mcverIsValid(version: string, include_snapshots: boolean = false
 	return false;
 }
 
-/** Returns if the string is in the form of a major Minecraft version, or null if the string is not a valid version. */
+/** Returns whether the string is in the form of a major Minecraft version, or null if the string is not a valid version. */
 export function mcverIsMajor(version: string): boolean | null {
 	if (!mcverIsValid(version)) return null;
 	if (/^1\.[1-9][0-9]?$/.test(version)) return true;
 	return false;
 }
 
-/** Returns if the string is in the form of a minor Minecraft version, or null if the string is not a valid version. */
+/** Returns whether the string is in the form of a minor Minecraft version, or null if the string is not a valid version. */
 export function mcverIsMinor(version: string): boolean | null {
 	if (!mcverIsValid(version)) return null;
 	if (/^1\.[1-9][0-9]?\.[1-9][0-9]?$/.test(version)) return true;
@@ -32,14 +32,14 @@ export function mcverGetMajor(version: string): string | null {
 	else return /^1\.[1-9][0-9]?(?=\.)/.exec(version)![0];
 }
 
-/** Returns if a minor version is of the major version, null if the specified minor version isn't a minor version or the major one isn't a major one. */
+/** Returns whether a minor version is of a major version, null if the specified minor version isn't a minor version or the major one isn't a major one. */
 export function mcverMinorBelongsToMajor(minor: string, major: string): boolean | null {
 	if (!mcverIsMinor(minor) || !mcverIsMajor(major)) return null;
 	if (mcverGetMajor(minor) == major) return true;
 	else return false;
 }
 
-/** Returns if the two versions are of the same major release. */
+/** Returns whether the two versions are of the same major release. */
 export function mcversSameMajor(version1: string, version2: string): boolean | null {
 	if (!mcverIsValid(version1) || !mcverIsValid(version2)) return null;
 	else return mcverGetMajor(version1) == mcverGetMajor(version2);
@@ -56,4 +56,12 @@ export function mcverSanitize(text: string): string | null {
 	}
 	if (mcverIsValid(text)) return text;
 	else return null;
+}
+
+export function mcverAsNumber(version: string): number | null {
+	if (!mcverIsValid(version)) return null;
+	const major = parseInt(/(?<=^1\.)[1-9][0-9]?(?=\.[1-9][0-9]?)?/.exec(version)![0]) * 100;
+	let minor = 0;
+	if (/(?<=[1-9]\.)[1-9][0-9]?$/.test(version)) minor = parseInt(/(?<=[1-9]\.)[1-9][0-9]?$/.exec(version)![0]);
+	return major + minor;
 }
