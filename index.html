@@ -29,13 +29,17 @@
 
 		<div class="search-tool">
 			<div class="search-filters">
-				<div>
-					<label for="search-input">Search term(s)</label>
-					<input id="search-input" type="text" placeholder="Search CurseForge and Modrinth..." />
+				<div class="search-filter">
+					<label for="search-input" class="--dont-hide" style="display: none;">Search terms</label>
+
+					<a>Search term(s)</a> <span hidden class="--value-hint"></span>
+					<input id="search-input" type="text" placeholder="Search CurseForge and Modrinth..."/>
 				</div>
 				
-				<div>
-					<label for="project-type-input">Project type</label>
+				<div class="search-filter">
+					<label for="project-type-input" class="--dont-hide" style="display: none;">Project type</label>
+
+					<a>Project type</a> <span hidden class="--value-hint"></span>
 					<select id="project-type-input">
 						<option value="all">All</option>
 						<option value="mod">Mod</option>
@@ -47,14 +51,18 @@
 					</select>
 				</div>
 
-				<div>
-					<label for="version-input">Minecraft version</label>
+				<div class="search-filter">
+					<label for="version-input" class="--dont-hide" style="display: none;">Minecraft version</label>
+
+					<a>Minecraft version</a> <span hidden class="--value-hint"></span>
 					<input id="version-input" type="text" placeholder="Version..." />
-					<span hidden id="version-input-feedback" style="font-size: small; vertical-align: top;">⚠ Invalid version</span>
+					<span hidden id="version-input-feedback" style="font-size: small; vertical-align: middle;" class="--dont-hide">⚠ Invalid version</span>
 				</div>
 
-				<div>
-					<label for="mod-loader-input">Mod loader</label>
+				<div class="search-filter">
+					<label for="mod-loader-input" class="--dont-hide" style="display: none;">Mod loader</label>
+
+					<a>Mod loader</a> <span hidden class="--value-hint"></span>
 					<select id="mod-loader-input">
 						<option value="any">Any</option>
 						<option value="forge">Forge</option>
@@ -64,15 +72,19 @@
 					</select>
 				</div>
 				
-				<div>
-					<label for="search-number-input">Number of results</label>
+				<div class="search-filter">
+					<label for="search-number-input" class="--dont-hide" style="display: none;">Number of results</label>
+
+					<a class="--hidden-by-default">Number of results</a> <span hidden class="--value-hint"></span>
 					<span style="font-size: small;"><br>Higher numbers give more accurate results, but are a bit slower</span>
 					<input id="search-number-input" type="number" value="30" min="5" max="100"/>
 				</div>
 
-				<div>
-					<input id="pair-search-toggle" type="checkbox" />
-					<label for="pair-search-toggle">Pair search</label>
+				<div class="search-filter">
+					<label for="pair-search-toggle" class="--dont-hide" style="display: none;">Toggle pair search</label>
+
+					<input id="pair-search-toggle" type="checkbox"/>
+					<a class="--hidden-by-default">Pair search</a>
 					<span style="font-size: small;"><br>Try harder to get project links to both CurseForge and Modrinth (slows search down significantly, but gives more useful results)</span>
 				</div>
 
@@ -83,11 +95,11 @@
 
 					<span id="search-page" style="width:25%;text-align:center;user-select: none;">
 						<a class="basic -down">
-							<svg alt="down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 96c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c9.2 9.2 22.9 11.9 34.9 6.9S224 428.9 224 416l0-320z"/></svg>
+							<svg aria-label="Go back one page" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 96c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c9.2 9.2 22.9 11.9 34.9 6.9S224 428.9 224 416l0-320z"/></svg>
 						</a>
-						&nbsp;&nbsp;<span class="-value">1</span>&nbsp;&nbsp;
+						&nbsp;&nbsp;<span class="-value" aria-label="Page number">1</span>&nbsp;&nbsp;
 						<a class="basic -up">
-							<svg alt="up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M32.5 96c0-12.9 7.8-24.6 19.8-29.6S78 64.2 87.1 73.4l160 160c12.5 12.5 12.5 32.8 0 45.3l-160 160c-9.2 9.2-22.9 11.9-34.9 6.9S32.5 428.9 32.5 416l0-320z"/></svg>
+							<svg aria-label="Go forward one page" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M32.5 96c0-12.9 7.8-24.6 19.8-29.6S78 64.2 87.1 73.4l160 160c12.5 12.5 12.5 32.8 0 45.3l-160 160c-9.2 9.2-22.9 11.9-34.9 6.9S32.5 428.9 32.5 416l0-320z"/></svg>
 						</a>
 					</span>
 				</div>
@@ -95,9 +107,7 @@
 				<p id="search-progress-indicator"></p>
 			</div>
 
-			<div class="search-result-list">
-
-			</div>
+			<div class="search-result-list"></div>
 
 			<template id="SEARCH-RESULT-ITEM-TEMPLATE">
 				<div class="search-result-item">

@@ -8,6 +8,7 @@ export function onLoad() {
 
 	registerPageChanger();
 	loadIntroduction();
+	registerSearchFilterElements()
 
 	search();
 }
@@ -177,4 +178,45 @@ function pageReset() {
 function search() {
 	pageReset();
 	searchWithoutPageReset();
+}
+
+function registerSearchFilterElements() {
+	const elements = document.getElementsByClassName("search-filter");
+	for (const element of elements) {
+		const label = element.querySelector("a")!;
+		label.addEventListener("click", searchFilterOpen);
+		if (label.classList.contains("--hidden-by-default")) label.click();
+	}
+}
+
+function searchFilterOpen(this: HTMLAnchorElement) {
+	const children = this.parentElement!.children;
+	for (const child of children) {
+		if (child.tagName != "A" && !child.classList.contains("--dont-hide")) (child as HTMLElement).hidden = !(child as HTMLElement).hidden;
+		if (child.classList.contains("--value-hint")) {
+			let text = "";
+			if (this.parentElement!.querySelector("input")?.value) {
+				text = text + "∗ " + this.parentElement!.querySelector("input")!.value;
+			}
+			else if (this.parentElement!.querySelector("select")?.value) {
+				text = text + "∗ " + SelectValueToFormattedString[this.parentElement!.querySelector("select")!.value];
+			}
+			(child as HTMLElement).innerText = text;
+		}
+	}
+}
+
+const SelectValueToFormattedString: {[key: string]: string} = {
+	mod: "Mod",
+	resourcepack: "Resource pack",
+	datapack: "Data pack",
+	shader: "Shader pack",
+	modpack: "Mod pack",
+	plugin: "Plugin",
+	forge: "Forge",
+	neoforge: "NeoForge",
+	fabric: "Fabric",
+	quilt: "Quilt",
+	all: "all",
+	any: "any"
 }
