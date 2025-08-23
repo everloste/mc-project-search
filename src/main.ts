@@ -55,23 +55,25 @@ async function search() {
 			let clone = template.content.querySelector("div")!.cloneNode(true) as HTMLDivElement;
 
 			(clone.querySelector(".-icon") as HTMLImageElement).src = result.icon_url;
-			(clone.querySelector(".-title") as HTMLSpanElement).innerText = result.title;
+			(clone.querySelector(".-title") as HTMLAnchorElement).innerText = result.title;
 			(clone.querySelector(".-author") as HTMLSpanElement).innerText = result.author;
 			(clone.querySelector(".-desc") as HTMLSpanElement).innerText = result.description;
 			(clone.querySelector(".-downloads") as HTMLSpanElement).innerText = Intl.NumberFormat().format(result.downloads);
-
-			if (!result.curseforge) {
-				(clone.querySelector(".-curseforge-link") as HTMLSpanElement).hidden = true;
-			}
-			else {
-				(clone.querySelector(".-curseforge-link") as HTMLAnchorElement).href = result.curseforge;
-			}
 
 			if (!result.modrinth) {
 				(clone.querySelector(".-modrinth-link") as HTMLSpanElement).hidden = true;
 			}
 			else {
 				(clone.querySelector(".-modrinth-link") as HTMLAnchorElement).href = result.modrinth;
+				(clone.querySelector(".-title") as HTMLAnchorElement).href = result.modrinth;
+			}
+
+			if (!result.curseforge) {
+				(clone.querySelector(".-curseforge-link") as HTMLSpanElement).hidden = true;
+			}
+			else {
+				(clone.querySelector(".-curseforge-link") as HTMLAnchorElement).href = result.curseforge;
+				(clone.querySelector(".-title") as HTMLAnchorElement).href = result.curseforge;
 			}
 
 			if (result.follows) {

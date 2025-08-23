@@ -71,16 +71,15 @@
 		.-content {
 			flex-grow: 1;
 		}
-		.-title {
-			font-weight: bold;
-			color: var(--accent-color);
-		}
 		.-stats-text {
 			color: var(--text-color-dark);
 			font-size: smaller;
 		}
 		.-by {
 			font-size: smaller;
+		}
+		.-links {
+			text-align: right;
 		}
 
 		/* on hover */

@@ -70,11 +70,11 @@
 					Search
 				</button>
 				<p id="search-progress-indicator"></p>
-				<div style="display: flex; flex-direction: row; align-items: baseline;">
-					<label style="margin-right: 0.5em;" hidden>
+				<div hidden style="display: flex; flex-direction: row; align-items: baseline;">
+					<label hidden style="margin-right: 0.5em;">
 						Page
 					</label>
-					<input type="text" class="inline" min="1" value="1" max="100" style="width: 5em;" hidden/>
+					<input hidden type="text" inputmode="numeric" style="width: 4em;" pattern="^[0-9]+$"/>
 				</div>
 			</div>
 
@@ -86,7 +86,7 @@
 				<div class="search-result-item">
 					<img class="-icon" src="" />
 					<div class="-content">
-						<span class="-title">Project title</span><span class="-by"> by <span class="-author">unknown author</span></span>
+						<a class="-title">Project title</a><span class="-by"> by <span class="-author">unknown author</span></span>
 						<br>
 						<span class="-desc">Project description</span>
 						<br>
@@ -100,7 +100,7 @@
 							</span>
 						</span>
 					</div>
-					<div>
+					<div class="-links">
 						<a class="-curseforge-link" target="_blank">CurseForge<br></a>
 						<a class="-modrinth-link" target="_blank">Modrinth</a>
 					</div>

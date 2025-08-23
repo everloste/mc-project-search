@@ -92,5 +92,6 @@ a {
 	&:hover {
 		color: var(--accent-color-lighter);
 		text-decoration: underline var(--accent-color-lighter) var(--border-width);
+		font-weight: 900;
 	}
 }
