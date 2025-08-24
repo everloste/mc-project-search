@@ -1,5 +1,6 @@
-import { mcverIsValid } from "./mcver";
-import { searchCombined, type UnifiedProjectType } from "./queries/combined-api";
+import { mcverIsValid, mcverSanitize } from "./mcver";
+import { requestPage } from "./queries/combined-api";
+import { type UnifiedProjectType } from "./types/api-access";
 
 export function onLoad() {
 	document.getElementById("search-input")!.addEventListener("change", search);
@@ -47,10 +48,11 @@ function showFail() {
 }
 
 export async function searchWithoutPageReset() {
+	console.info("A search was requested by page")
 	const search_text = (document.getElementById("search-input") as HTMLInputElement)!.value;
 	const search_version = (document.getElementById("version-input") as HTMLInputElement)!.value;
-	const search_number = Math.round((document.getElementById("search-number-input") as HTMLInputElement)!.valueAsNumber / 2);
-
+	let search_number = parseInt((document.getElementById("search-number-input") as HTMLSelectElement)!.value);
+	
 	let search_project_type: string | undefined = (document.getElementById("project-type-input") as HTMLSelectElement)!.value;
 	if (search_project_type == "all") search_project_type = undefined;
 
@@ -58,19 +60,23 @@ export async function searchWithoutPageReset() {
 	if (mod_loader == "any") mod_loader = undefined;
 
 	const pair_search = (document.getElementById("pair-search-toggle") as HTMLInputElement)!.checked;
+	const deep_search = (document.getElementById("deep-search-toggle") as HTMLInputElement)!.checked;
+	const debug = (document.getElementById("debug-toggle") as HTMLInputElement)!.checked;
 
-	const results = await searchCombined({
+	if (deep_search === false) search_number = Math.round(search_number / 2);
+
+	const results = await requestPage({
 		query: search_text,
 		version: sanitiseVersion(search_version),
 		number: search_number,
 		project_type: search_project_type ? search_project_type as UnifiedProjectType : undefined,
 		pair_search: pair_search,
 		mod_loader: mod_loader,
-		page: getPage() - 1
+		page: getPage() - 1,
+		simple_search: !deep_search
 	});
 
-	console.log("Searching:", search_text, search_version);
-
+	let i = 0;
 	if (results) {
 		const template = document.getElementById("SEARCH-RESULT-ITEM-TEMPLATE")! as HTMLTemplateElement;
 		let result_list_widget = document.querySelector(".search-result-list")!;
@@ -118,6 +124,16 @@ export async function searchWithoutPageReset() {
 				(clone.querySelector(".-version-number") as HTMLSpanElement).innerText = result.version;
 			}
 
+			if (debug) {
+				if (result.weight) {
+					(clone.querySelector(".-weight") as HTMLSpanElement).hidden = false;
+					(clone.querySelector(".-weight-number") as HTMLSpanElement).innerText = result.weight.toFixed(4);
+				}
+				(clone.querySelector(".-index") as HTMLSpanElement).hidden = false;
+				(clone.querySelector(".-index-number") as HTMLSpanElement).innerText = i.toString();
+				i += 1;
+			}
+
 			result_list_widget.appendChild(clone!);
 		}
 		result_list_widget.scrollTop = 0;
@@ -128,8 +144,8 @@ export async function searchWithoutPageReset() {
 }
 
 function sanitiseVersion(version: string) {
-	const r = mcverIsValid(version);
-	if (r == false) return undefined;
+	const r = mcverSanitize(version);
+	if (r === null) return undefined;
 	else return version;
 }
 
@@ -177,7 +193,6 @@ function pageReset() {
 
 function search() {
 	pageReset();
-	searchWithoutPageReset();
 }
 
 function registerSearchFilterElements() {
@@ -217,6 +232,9 @@ const SelectValueToFormattedString: {[key: string]: string} = {
 	neoforge: "NeoForge",
 	fabric: "Fabric",
 	quilt: "Quilt",
-	all: "all",
-	any: "any"
+	all: "All",
+	any: "Any",
+	"10": "10",
+	"25": "25",
+	"50": "50"
 }
