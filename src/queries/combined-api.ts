@@ -45,7 +45,7 @@ export class SearchResults {
 				}
 				stitched_tokens = stitched_tokens + token;
 			}
-			
+
 			const fuse_results = fuse.search(stitched_tokens);
 
 			// Assign weight based on relevance
@@ -55,7 +55,8 @@ export class SearchResults {
 
 			// Sort by download count
 			this.results.sort((a, b) => {
-				return (b.weight + Math.pow((b.downloads / a.downloads), this.download_weight)) - (a.weight + Math.pow((a.downloads / b.downloads), this.download_weight));
+				return (b.weight + ((b.weight > 1.5) ? (Math.pow((b.downloads / a.downloads), this.download_weight)) : (Math.pow((b.downloads / a.downloads), this.download_weight/4))))
+				- (a.weight + ((b.weight > 1.5) ? (Math.pow((a.downloads / b.downloads), this.download_weight)) : (Math.pow((a.downloads / b.downloads), this.download_weight/4))));
 			});
 		}
 		// Otherwise sort only by download count
